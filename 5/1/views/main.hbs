@@ -1,0 +1,30 @@
+<form name="userForm" action="getData">
+  <input type="text" name="data" placeholder="Поле для ввода"> <br>
+  <input type="submit" value="POST" name="postButton"> <br>
+  <input type="submit" value="GET" name="getButton">
+</form>
+
+<script>
+  var form = document.forms.userForm;
+
+  form.postButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    var formData = new FormData(form);
+    var request = new XMLHttpRequest();
+    request.open("POST", form.action, false);
+    request.send(formData);
+    form.data.value = "";
+  });
+
+  form.getButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    var request = new XMLHttpRequest();
+    request.open("GET", "text.txt");
+    request.onreadystatechange = () => {
+      if (request.readyState == 4 && request.status == 200) {
+        form.data.value = request.responseText;
+      }
+    }
+    request.send();
+  });
+</script>

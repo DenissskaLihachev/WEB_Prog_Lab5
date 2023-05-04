@@ -1,0 +1,46 @@
+<table>
+  <tr>
+    <td>Название</td>
+    <td>Цена</td>
+    <td>Количество</td>
+  </tr>
+</table>
+<br>
+<form name="userForm" action="getData">
+  <input type="number" name="data" placeholder="Поле для ввода">  <br>
+  <input type="submit" value="GET" name="getButton"> <br>
+  <input type="submit" value="POST" name="postButton">
+</form>
+<br>
+<div>
+
+</div>
+<script>
+
+  var form = document.forms.userForm;
+  form.postButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    var formData = new FormData(form);
+    var request = new XMLHttpRequest();
+    request.open("POST", form.action, false);
+    request.onreadystatechange = () => {
+      if (request.readyState == 4 && request.status == 200) {
+        document.getElementsByTagName("div")[0].innerText = request.responseText;
+      }
+    }
+    request.send(formData);
+    form.data.value = 0;
+  });
+
+  form.getButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    var request = new XMLHttpRequest();
+    request.open("GET", "getTable");
+    request.onreadystatechange = () => {
+      if (request.readyState == 4 && request.status == 200) {
+        document.getElementsByTagName("table")[0].innerHTML = request.responseText;
+      }
+    }
+    request.send();
+  });
+</script>
